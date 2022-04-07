@@ -1,0 +1,305 @@
+ network 192.168.1.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+access-list 100 deny ip 192.168.1.32 0.0.0.15 172.16.2.0 0.0.0.255
+access-list 100 permit ip any any
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ password cisco
+ login
+!
+!
+!
+end
+
+
+BHM#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+BHM(config)#no access-list 100
+BHM(config)#do show access-lists
+BHM(config)#access-list 100 permit ip host 192.168.1.34 172.16.2.0 0.0.0.255
+BHM(config)#do show access-lists
+Extended IP access list 100
+    10 permit ip host 192.168.1.34 172.16.2.0 0.0.0.255
+
+BHM(config)#access-list 100  deny ip 192.168.1.32 0.0.0.15 172.16.2.0 0.0.0.255
+BHM(config)#access-list 100 permit ip any any
+BHM(config)#do show access-lists
+Extended IP access list 100
+    10 permit ip host 192.168.1.34 172.16.2.0 0.0.0.255
+    20 deny ip 192.168.1.32 0.0.0.15 172.16.2.0 0.0.0.255
+    30 permit ip any any
+
+BHM(config)#do show access-lists
+Extended IP access list 100
+    10 permit ip host 192.168.1.34 172.16.2.0 0.0.0.255 (4 match(es))
+    20 deny ip 192.168.1.32 0.0.0.15 172.16.2.0 0.0.0.255 (4 match(es))
+    30 permit ip any any
+
+BHM(config)#
+
+
+
+
+
+
+
+
+BHM con0 is now available
+
+
+
+
+
+
+Press RETURN to get started.
+
+
+
+
+
+
+
+
+
+
+
+
+
+BHM>en
+Password: 
+Password: 
+BHM#do show run\
+       ^
+% Invalid input detected at '^' marker.
+	
+BHM#do show run
+       ^
+% Invalid input detected at '^' marker.
+	
+BHM#show run
+Building configuration...
+
+Current configuration : 1100 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname BHM
+!
+!
+!
+enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524DCPN-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 192.168.1.33 255.255.255.240
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 192.168.1.17 255.255.255.240
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ ip address 172.16.1.2 255.255.255.0
+ ip access-group 100 out
+ clock rate 56000
+!
+interface Serial0/0/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ network 172.16.0.0
+ network 192.168.1.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+access-list 100 permit ip host 192.168.1.34 172.16.2.0 0.0.0.255
+access-list 100 deny ip 192.168.1.32 0.0.0.15 172.16.2.0 0.0.0.255
+access-list 100 permit ip any any
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ password cisco
+ login
+!
+!
+!
+end
+
+
+BHM#show access-lists
+Extended IP access list 100
+    10 permit ip host 192.168.1.34 172.16.2.0 0.0.0.255 (4 match(es))
+    20 deny ip 192.168.1.32 0.0.0.15 172.16.2.0 0.0.0.255 (4 match(es))
+    30 permit ip any any (7 match(es))
+
+BHM#show ip interface
+GigabitEthernet0/0 is up, line protocol is up (connected)
+  Internet address is 192.168.1.33/28
+  Broadcast address is 255.255.255.255
+  Address determined by setup command
+  MTU is 1500 bytes
+  Helper address is not set
+  Directed broadcast forwarding is disabled
+  Outgoing access list is not set
+  Inbound  access list is not set
+  Proxy ARP is enabled
+  Security level is default
+  Split horizon is enabled
+  ICMP redirects are always sent
+  ICMP unreachables are always sent
+  ICMP mask replies are never sent
+  IP fast switching is disabled
+  IP fast switching on the same interface is disabled
+  IP Flow switching is disabled
+  IP Fast switching turbo vector
+  IP multicast fast switching is disabled
+  IP multicast distributed fast switching is disabled
+  Router Discovery is disabled
+  IP output packet accounting is disabled
+  IP access violation accounting is disabled
+  TCP/IP header compression is disabled
+  RTP/IP header compression is disabled
+  Probe proxy name replies are disabled
+  Policy routing is disabled
+  Network address translation is disabled
+  BGP Policy Mapping is disabled
+  Input features: MCI Check
+  WCCP Redirect outbound is disabled
+  WCCP Redirect inbound is disabled
+  WCCP Redirect exclude is disabled
+GigabitEthernet0/1 is up, line protocol is up (connected)
+  Internet address is 192.168.1.17/28
+  Broadcast address is 255.255.255.255
+  Address determined by setup command
+  MTU is 1500 bytes
+  Helper address is not set
+  Directed broadcast forwarding is disabled
+  Outgoing access list is not set
+  Inbound  access list is not set
+  Proxy ARP is enabled
+  Security level is default
+  Split horizon is enabled
+  ICMP redirects are always sent
+  ICMP unreachables are always sent
+  ICMP mask replies are never sent
+  IP fast switching is disabled
+  IP fast switching on the same interface is disabled
+  IP Flow switching is disabled
+  IP Fast switching turbo vector
+  IP multicast fast switching is disabled
+  IP multicast distributed fast switching is disabled
+  Router Discovery is disabled
+  IP output packet accounting is disabled
+  IP access violation accounting is disabled
+  TCP/IP header compression is disabled
+  RTP/IP header compression is disabled
+  Probe proxy name replies are disabled
+  Policy routing is disabled
+  Network address translation is disabled
+  BGP Policy Mapping is disabled
+  Input features: MCI Check
+  WCCP Redirect outbound is disabled
+  WCCP Redirect inbound is disabled
+  WCCP Redirect exclude is disabled
+Serial0/0/0 is up, line protocol is up (connected)
+  Internet address is 172.16.1.2/24
+  Broadcast address is 255.255.255.255
+  Address determined by setup command
+  MTU is 1500
+  Helper address is not set
+  Directed broadcast forwarding is disabled
+  Outgoing access list is 100
+  Inbound  access list is not set
+  Proxy ARP is enabled
+  Security level is default
+  Split horizon is enabled
+  ICMP redirects are always sent
+  ICMP unreachables are always sent
+  ICMP mask replies are never sent
+  IP fast switching is disabled
+  IP fast switching on the same interface is disabled
+  IP Flow switching is disabled
+  IP Fast switching turbo vector
+  IP multicast fast switching is disabled
+  IP multicast distributed fast switching is disabled
+  Router Discovery is disabled
+  IP output packet accounting is disabled
+  IP access violation accounting is disabled
+  TCP/IP header compression is disabled
+  RTP/IP header compression is disabled
+  Probe proxy name replies are disabled
+  Policy routing is disabled
+  Network address translation is disabled
+  WCCP Redirect outbound is disabled
+  WCCP Redirect exclude is disabled
+  BGP Policy Mapping is disabled
+Serial0/0/1 is administratively down, line protocol is down (disabled)
+  Internet protocol processing disabled
+Vlan1 is administratively down, line protocol is down
+  Internet protocol processing disabled
+
